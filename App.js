@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage.js';
-import DashboardPage from './pages/DashboardPage.js';
-import ClientsHistoryPage from './pages/ClientsHistoryPage.js';
-import NewClientPage from './pages/NewClientPage.js';
-import ExpenseManagementPage from './pages/ExpenseManagementPage.js';
-import PaymentsPage from './pages/PaymentsPage.js';
-import SettingsPage from './pages/SettingsPage.js';
-import BusinessExpensesPage from './pages/BusinessExpensesPage.js';
-import { gasApi } from './api.js';
+import LoginPage from '/pages/LoginPage.js';
+import DashboardPage from '/pages/DashboardPage.js';
+import ClientsHistoryPage from '/pages/ClientsHistoryPage.js';
+import NewClientPage from '/pages/NewClientPage.js';
+import ExpenseManagementPage from '/pages/ExpenseManagementPage.js';
+import PaymentsPage from '/pages/PaymentsPage.js';
+import SettingsPage from '/pages/SettingsPage.js';
+import BusinessExpensesPage from '/pages/BusinessExpensesPage.js';
+import { gasApi } from '/api.js';
 
 const STORAGE_KEY = 'harmony_glass_clients_v4';
 const HISTORY_KEY = 'harmony_glass_history_v4';
