@@ -10,7 +10,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyGgdvbLIOXA6mp
 export const gasApi = {
   async call(action: string, payload: any = {}) {
     // Si no se ha configurado la URL, trabajamos solo en modo local (localStorage)
-    if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes("https://script.google.com/macros/s/AKfycbyGgdvbLIOXA6mp7-ewTb9BwXgMJa6fbDZ5s6xKej2ut9_LpldI1foeoo5KcTtPzVBI/exec")) {
+    if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes("TU_URL")) {
       console.warn("API Harmony: Modo local activo. Configure GAS_WEB_APP_URL para persistencia en Google Sheets.");
       return { success: false, error: "URL no configurada" };
     }
