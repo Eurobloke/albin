@@ -128,4 +128,3 @@ const PaymentsPage = ({ clients }) => {
   );
 };
 
-export default PaymentsPage;
