@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AppHeader from '../components/AppHeader.jsx';
-import BottomNav from '../components/BottomNav.jsx';
+import AppHeader from './components/AppHeader.jsx';
+import BottomNav from './components/BottomNav.jsx';
 
 const SettingsPage = ({ onLogout, role }) => {
   const navigate = useNavigate();
