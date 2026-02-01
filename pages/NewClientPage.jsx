@@ -1,14 +1,8 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Client } from '../types';
-import AppHeader from '../components/AppHeader';
+import AppHeader from '../components/AppHeader.jsx';
 
-interface NewClientPageProps {
-  onAddClient: (newClient: Client) => void;
-}
-
-const NewClientPage: React.FC<NewClientPageProps> = ({ onAddClient }) => {
+const NewClientPage = ({ onAddClient }) => {
   const navigate = useNavigate();
   const [abono, setAbono] = useState(50);
   const [formData, setFormData] = useState({
@@ -21,7 +15,7 @@ const NewClientPage: React.FC<NewClientPageProps> = ({ onAddClient }) => {
   const handleSave = () => {
     if (!formData.name || !formData.total) return alert("Complete los campos obligatorios");
     
-    const newClient: Client = {
+    const newClient = {
       id: Date.now(),
       name: formData.name,
       desc: formData.location || "General",
