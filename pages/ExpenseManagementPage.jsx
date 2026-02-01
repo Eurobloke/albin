@@ -210,4 +210,3 @@ const ExpenseManagementPage = ({ readonly = false, clientData, onUpdateClient })
   );
 };
 
-export default ExpenseManagementPage;
