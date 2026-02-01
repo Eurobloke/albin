@@ -122,5 +122,3 @@ const NewClientPage = ({ onAddClient }) => {
     </div>
   );
 };
-
-export default NewClientPage;
