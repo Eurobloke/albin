@@ -1,13 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AppHeader from '../components/AppHeader';
-import BottomNav from '../components/BottomNav';
-import { BusinessExpense } from '../types';
-
-interface BusinessExpensesPageProps {
-  username: string;
-}
+import AppHeader from '../components/AppHeader.jsx';
+import BottomNav from '../components/BottomNav.jsx';
 
 const CATEGORIES = [
   { id: 'fuel', label: 'Gasolina', icon: 'local_gas_station', color: 'bg-amber-500' },
@@ -16,17 +10,17 @@ const CATEGORIES = [
   { id: 'other', label: 'Otros / Varios', icon: 'more_horiz', color: 'bg-slate-500' },
 ];
 
-const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username }) => {
+const BusinessExpensesPage = ({ username }) => {
   const navigate = useNavigate();
   const storageKey = `harmony_business_expenses_${username}`;
   
-  const [expenses, setExpenses] = useState<BusinessExpense[]>(() => {
+  const [expenses, setExpenses] = useState(() => {
     const saved = localStorage.getItem(storageKey);
     return saved ? JSON.parse(saved) : [];
   });
 
   const [showModal, setShowModal] = useState(false);
-  const [expenseToDelete, setExpenseToDelete] = useState<BusinessExpense | null>(null);
+  const [expenseToDelete, setExpenseToDelete] = useState(null);
   const [showClearAllModal, setShowClearAllModal] = useState(false);
   
   const [newExpense, setNewExpense] = useState({ 
@@ -40,13 +34,13 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
     localStorage.setItem(storageKey, JSON.stringify(expenses));
   }, [expenses, storageKey]);
 
-  const handleAddExpense = (e: React.FormEvent) => {
+  const handleAddExpense = (e) => {
     e.preventDefault();
     if (!newExpense.item || !newExpense.amount) return;
 
     const categoryData = CATEGORIES.find(c => c.id === newExpense.category) || CATEGORIES[3];
 
-    const expense: BusinessExpense = {
+    const expense = {
       id: Date.now(),
       item: newExpense.item,
       amount: parseFloat(newExpense.amount),
@@ -75,7 +69,7 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
 
   const totalSpent = expenses.reduce((acc, curr) => acc + curr.amount, 0);
 
-  const formatCurrency = (val: number) => new Intl.NumberFormat('es-CO', { 
+  const formatCurrency = (val) => new Intl.NumberFormat('es-CO', { 
     style: 'currency', currency: 'COP', maximumFractionDigits: 0 
   }).format(val);
 
@@ -86,7 +80,6 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
       <AppHeader />
 
       <main className="px-6 mt-10 animate-fade-up">
-        {/* Card de Resumen Individual */}
         <div className="glass-card rounded-[2.5rem] p-8 space-y-4 mb-10 border-l-8 border-l-harmony-red shadow-2xl relative overflow-hidden">
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-2">
@@ -129,7 +122,6 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
           </div>
         </div>
 
-        {/* Lista de Gastos */}
         <div className="space-y-4">
           {expenses.map((exp) => (
             <div key={exp.id} className="glass-card rounded-[2rem] p-5 flex justify-between items-center group animate-slide-in relative overflow-hidden">
@@ -171,7 +163,6 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
         </div>
       </main>
 
-      {/* Modal: Nuevo Gasto */}
       {showModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/90 backdrop-blur-xl animate-fade-in">
           <div className="glass-card w-full max-w-sm rounded-[3rem] p-8 space-y-6 border-t-8 border-t-harmony-red animate-fade-up">
@@ -215,7 +206,6 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
         </div>
       )}
 
-      {/* Modal: Confirmar Borrado Individual */}
       {expenseToDelete && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-md animate-fade-in">
           <div className="glass-card w-full max-w-sm rounded-[3rem] p-8 space-y-6 animate-fade-up">
@@ -236,7 +226,6 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
         </div>
       )}
 
-      {/* Modal: Confirmar Vaciar Caja */}
       {showClearAllModal && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-md animate-fade-in">
           <div className="glass-card w-full max-w-sm rounded-[3rem] p-8 space-y-6 animate-fade-up border-b-8 border-b-red-600">
@@ -261,5 +250,3 @@ const BusinessExpensesPage: React.FC<BusinessExpensesPageProps> = ({ username })
     </div>
   );
 };
-
-export default BusinessExpensesPage;
