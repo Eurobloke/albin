@@ -37,5 +37,3 @@ const AppHeader = ({ size = "sm", showBack, onBack }) => (
     </div>
   </header>
 );
-
-export default AppHeader;
