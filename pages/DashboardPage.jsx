@@ -166,4 +166,3 @@ const DashboardPage = ({ readonly = false, clients, onSelectClient, onDeleteClie
   );
 };
 
-export default DashboardPage;
