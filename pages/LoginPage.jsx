@@ -1,14 +1,10 @@
-
-import React, { useState, useEffect } from 'react';
+cat > /home/claude/pages/LoginPage.jsx << 'EOF'
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LOGO_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuBmG8hGr-zbMEUw4_XqO0tksMNayStHx_v-Z7VL76ULi6d8hhlYSRDhtmtIuWZm6c6OUuL6z3WiTSmCgE43moWXPGn32DpJ-cwCjb3G8mpiJHrkHNygIFcIKGWQG_jLf7khHnYUrSpX6EgHFOnlZnZQEWYFiNFi2SBTIXwuqrRgLo43v0K5s2S2b69Gm-wK4p7SIdSR2UAY9HA3p74Ff8luS_XM0c0s177RPLxnTJfPW-VG_H8V0gzm1wWBKXx_9jdDPyfnHYLF_A";
 
-interface LoginPageProps {
-  onLogin: (role: 'admin' | 'basic', username: string) => void;
-}
-
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+const LoginPage = ({ onLogin }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [pin, setPin] = useState("");
@@ -18,27 +14,24 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   const biometricEnabled = localStorage.getItem('harmony_biometric') === 'true';
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     setError("");
 
     const username = user.toLowerCase().trim();
     const password = pin.toLowerCase().trim();
 
-    let role: 'admin' | 'basic' | null = null;
+    let role = null;
     let finalName = username;
 
-    // Credenciales de administrador
     if (username === 'admin' && password === '1989') {
       role = 'admin';
       finalName = 'admin';
     } 
-    // Credenciales de usuario básico (lector original)
     else if (username === 'lector' && password === '1234') {
       role = 'basic';
       finalName = 'lector';
     }
-    // Nueva credencial de usuario básico solicitado: johan / 1111
     else if (username === 'johan' && password === '1111') {
       role = 'basic';
       finalName = 'johan';
@@ -56,7 +49,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     }
   };
 
-  const startBiometricScan = (role: 'admin' | 'basic', name: string) => {
+  const startBiometricScan = (role, name) => {
     setIsScanning(true);
     setTimeout(() => {
       setScanComplete(true);
@@ -155,3 +148,4 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 };
 
 export default LoginPage;
+EOF
