@@ -1,15 +1,8 @@
-
 import React from 'react';
-
-interface AppHeaderProps {
-  size?: 'sm' | 'lg';
-  showBack?: boolean;
-  onBack?: () => void;
-}
 
 const LOGO_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuBmG8hGr-zbMEUw4_XqO0tksMNayStHx_v-Z7VL76ULi6d8hhlYSRDhtmtIuWZm6c6OUuL6z3WiTSmCgE43moWXPGn32DpJ-cwCjb3G8mpiJHrkHNygIFcIKGWQG_jLf7khHnYUrSpX6EgHFOnlZnZQEWYFiNFi2SBTIXwuqrRgLo43v0K5s2S2b69Gm-wK4p7SIdSR2UAY9HA3p74Ff8luS_XM0c0s177RPLxnTJfPW-VG_H8V0gzm1wWBKXx_9jdDPyfnHYLF_A";
 
-const AppHeader: React.FC<AppHeaderProps> = ({ size = "sm", showBack, onBack }) => (
+const AppHeader = ({ size = "sm", showBack, onBack }) => (
   <header className="sticky top-0 z-50 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-2xl border-b border-slate-200/50 dark:border-white/5 px-6 py-4 transition-all duration-500">
     <div className="max-w-5xl mx-auto flex items-center justify-between">
       <div className="flex-1">
