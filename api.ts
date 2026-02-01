@@ -5,7 +5,7 @@
  */
 
 // 1. REEMPLAZA ESTA URL con la que te dio Google Apps Script al publicar como "Aplicación Web"
-const GAS_WEB_APP_URL = "TU_URL_DE_WEB_APP_AQUI";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyGgdvbLIOXA6mp7-ewTb9BwXgMJa6fbDZ5s6xKej2ut9_LpldI1foeoo5KcTtPzVBI/exec";
 
 export const gasApi = {
   async call(action: string, payload: any = {}) {
