@@ -1,27 +1,20 @@
-
 import React, { useState } from 'react';
-import AppHeader from '../components/AppHeader';
-import BottomNav from '../components/BottomNav';
-import { Client } from '../types';
-
-interface ClientsHistoryPageProps {
-  archivedClients: Client[];
-  onDeleteHistory?: (id: number) => void;
-}
+import AppHeader from '../components/AppHeader.jsx';
+import BottomNav from '../components/BottomNav.jsx';
 
 const LOGO_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuBmG8hGr-zbMEUw4_XqO0tksMNayStHx_v-Z7VL76ULi6d8hhlYSRDhtmtIuWZm6c6OUuL6z3WiTSmCgE43moWXPGn32DpJ-cwCjb3G8mpiJHrkHNygIFcIKGWQG_jLf7khHnYUrSpX6EgHFOnlZnZQEWYFiNFi2SBTIXwuqrRgLo43v0K5s2S2b69Gm-wK4p7SIdSR2UAY9HA3p74Ff8luS_XM0c0s177RPLxnTJfPW-VG_H8V0gzm1wWBKXx_9jdDPyfnHYLF_A";
 
-const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients, onDeleteHistory }) => {
+const ClientsHistoryPage = ({ archivedClients, onDeleteHistory }) => {
   const [search, setSearch] = useState('');
-  const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [selectedInvoice, setSelectedInvoice] = useState<Client | null>(null);
+  const [expandedId, setExpandedId] = useState(null);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
   
   const filtered = archivedClients.filter(p => 
     p.name.toLowerCase().includes(search.toLowerCase()) || 
     p.desc.toLowerCase().includes(search.toLowerCase())
   );
 
-  const formatCurrency = (val: number) => new Intl.NumberFormat('es-CO', { 
+  const formatCurrency = (val) => new Intl.NumberFormat('es-CO', { 
     style: 'currency', currency: 'COP', maximumFractionDigits: 0 
   }).format(val);
 
@@ -29,7 +22,7 @@ const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients
     window.print();
   };
 
-  const handleShare = async (client: Client) => {
+  const handleShare = async (client) => {
     const message = `🏢 *CERTIFICADO DE OBRA HARMONY GLASS*\n\nEstimado cliente *${client.name}*,\nAdjuntamos la factura final de su proyecto: *${client.desc}*.\n\n💰 *Inversión Total:* ${formatCurrency(client.total)}\n✅ *Estado:* TOTALMENTE PAGADO (ITBIS Incl.)\n\n_Gracias por elegir la calidad de Harmony Glass._`;
     
     if (navigator.share) {
@@ -159,11 +152,9 @@ const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients
         </div>
       </main>
 
-      {/* MODAL DE FACTURA "MASTER HARMONY" */}
       {selectedInvoice && (
         <div className="fixed inset-0 z-[100] bg-slate-950/98 backdrop-blur-3xl flex items-center justify-center p-4 overflow-y-auto no-print">
           <div className="w-full max-w-4xl bg-white rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden animate-fade-up my-8">
-            {/* Toolbar Modal */}
             <div className="px-12 py-8 bg-slate-50/80 border-b border-slate-100 flex justify-between items-center no-print">
               <button onClick={() => setSelectedInvoice(null)} className="flex items-center gap-3 font-black text-[11px] uppercase text-slate-400 hover:text-slate-900 transition-colors group">
                 <span className="material-symbols-outlined text-2xl group-hover:-translate-x-1 transition-transform">close</span> Cerrar Factura
@@ -178,14 +169,11 @@ const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients
               </div>
             </div>
 
-            {/* CONTENIDO DE FACTURA PREMIUM */}
             <div id="invoice-content" className="p-20 bg-white text-slate-900 relative">
-              {/* Marca de Agua Estética */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none select-none">
                 <img src={LOGO_URL} alt="" className="w-[600px]" />
               </div>
 
-              {/* Cabecera Corporativa */}
               <div className="flex justify-between items-start mb-24 relative">
                 <div className="flex items-center gap-10">
                   <div className="size-36 bg-white border-2 border-slate-50 rounded-[3rem] p-5 shadow-2xl">
@@ -212,7 +200,6 @@ const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients
                 </div>
               </div>
 
-              {/* Bloque de Información Cliente */}
               <div className="grid grid-cols-2 gap-20 mb-24 relative">
                 <div className="space-y-8">
                   <div className="border-l-4 border-primary pl-6">
@@ -235,7 +222,6 @@ const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients
                 </div>
               </div>
 
-              {/* Tabla de Conceptos Técnica */}
               <div className="mb-24 relative">
                 <table className="w-full">
                   <thead>
@@ -261,7 +247,6 @@ const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients
                 </table>
               </div>
 
-              {/* Totales y Liquidación */}
               <div className="flex justify-between items-end relative">
                 <div className="max-w-md space-y-6">
                   <div className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
@@ -308,5 +293,3 @@ const ClientsHistoryPage: React.FC<ClientsHistoryPageProps> = ({ archivedClients
     </div>
   );
 };
-
-export default ClientsHistoryPage;
