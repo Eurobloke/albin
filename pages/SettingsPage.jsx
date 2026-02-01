@@ -1,15 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AppHeader from '../components/AppHeader';
-import BottomNav from '../components/BottomNav';
+import AppHeader from '../components/AppHeader.jsx';
+import BottomNav from '../components/BottomNav.jsx';
 
-interface SettingsPageProps {
-  onLogout: () => void;
-  role: 'admin' | 'basic';
-}
-
-const SettingsPage: React.FC<SettingsPageProps> = ({ onLogout, role }) => {
+const SettingsPage = ({ onLogout, role }) => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
   const [biometric, setBiometric] = useState(() => localStorage.getItem('harmony_biometric') === 'true');
@@ -50,7 +44,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ onLogout, role }) => {
       <AppHeader />
 
       <main className="px-6 mt-10 animate-fade-up">
-        {/* Perfil de Usuario */}
         <div className="glass-card rounded-[2.5rem] p-8 space-y-6 mb-8 border-l-8 border-l-primary">
           <div className="flex items-center gap-5">
             <div className={`size-20 rounded-3xl flex items-center justify-center text-white font-black text-3xl shadow-2xl border border-white/20 ${role === 'admin' ? 'bg-primary shadow-primary/40' : 'bg-amber-500 shadow-amber-500/40'}`}>
@@ -122,7 +115,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ onLogout, role }) => {
         </p>
       </main>
 
-      {/* Modal: Confirmar Logout */}
       {showLogoutModal && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-md animate-fade-in">
           <div className="glass-card w-full max-w-sm rounded-[3rem] p-8 space-y-6 animate-fade-up border-b-8 border-b-primary">
@@ -143,7 +135,6 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ onLogout, role }) => {
         </div>
       )}
 
-      {/* Modal: Wipe Data */}
       {showWipeModal && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-950/90 backdrop-blur-xl animate-fade-in">
           <div className="glass-card w-full max-w-sm rounded-[3rem] p-8 space-y-6 animate-fade-up border-t-8 border-t-harmony-red">
@@ -180,5 +171,3 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ onLogout, role }) => {
     </div>
   );
 };
-
-export default SettingsPage;
