@@ -1,4 +1,4 @@
-cat > /home/claude/pages/LoginPage.jsx << 'EOF'
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -148,4 +148,4 @@ const LoginPage = ({ onLogin }) => {
 };
 
 export default LoginPage;
-EOF
+
