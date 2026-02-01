@@ -1,14 +1,9 @@
 
 import React from 'react';
-import AppHeader from '../components/AppHeader';
-import BottomNav from '../components/BottomNav';
-import { Client } from '../types';
+import AppHeader from '../components/AppHeader.jsx';
+import BottomNav from '../components/BottomNav.jsx';
 
-interface PaymentsPageProps {
-  clients: Client[];
-}
-
-const PaymentsPage: React.FC<PaymentsPageProps> = ({ clients }) => {
+const PaymentsPage = ({ clients }) => {
   const totalContracted = clients.reduce((acc, c) => acc + c.total, 0);
   const totalCollected = clients.reduce((acc, c) => {
     const abonoReal = c.abonoTotal || (c.total * (parseInt(c.pct) / 100));
@@ -16,7 +11,7 @@ const PaymentsPage: React.FC<PaymentsPageProps> = ({ clients }) => {
   }, 0);
   const pendingCollection = totalContracted - totalCollected;
 
-  const formatCurrency = (val: number) => new Intl.NumberFormat('es-CO', { 
+  const formatCurrency = (val) => new Intl.NumberFormat('es-CO', { 
     style: 'currency', currency: 'COP', maximumFractionDigits: 0 
   }).format(val);
 
@@ -45,20 +40,6 @@ const PaymentsPage: React.FC<PaymentsPageProps> = ({ clients }) => {
               <p className="text-xl font-black text-harmony-red">{formatCurrency(pendingCollection)}</p>
             </div>
           </div>
-        </div>
-
-        <div className="flex items-center justify-between mb-6 px-4">
-           <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Estado de Rentabilidad</h3>
-           <div className="flex gap-4">
-              <div className="flex items-center gap-1">
-                 <span className="size-2 bg-green-500 rounded-full"></span>
-                 <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">En Margen</span>
-              </div>
-              <div className="flex items-center gap-1">
-                 <span className="size-2 bg-harmony-red rounded-full animate-pulse"></span>
-                 <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Pérdida Crítica</span>
-              </div>
-           </div>
         </div>
 
         <div className="space-y-6">
