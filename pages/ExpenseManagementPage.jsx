@@ -1,16 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Client, Expense } from '../types';
-import AppHeader from '../components/AppHeader';
+import AppHeader from '../components/AppHeader.jsx';
 
-interface ExpenseManagementPageProps {
-  readonly?: boolean;
-  clientData: Client | null;
-  onUpdateClient: (updatedClient: Client) => void;
-}
-
-const ExpenseManagementPage: React.FC<ExpenseManagementPageProps> = ({ readonly = false, clientData, onUpdateClient }) => {
+const ExpenseManagementPage = ({ readonly = false, clientData, onUpdateClient }) => {
   const navigate = useNavigate();
   
   if (!clientData) {
@@ -19,7 +11,7 @@ const ExpenseManagementPage: React.FC<ExpenseManagementPageProps> = ({ readonly 
   }
 
   const [abonoTotal, setAbonoTotal] = useState(clientData.abonoTotal || (clientData.total * (parseInt(clientData.pct) / 100)));
-  const [expenses, setExpenses] = useState<Expense[]>(clientData.expenses || []);
+  const [expenses, setExpenses] = useState(clientData.expenses || []);
   const [showModal, setShowModal] = useState(false);
   const [newExpenseData, setNewExpenseData] = useState({ item: '', ref: '', amount: '' });
 
@@ -27,24 +19,23 @@ const ExpenseManagementPage: React.FC<ExpenseManagementPageProps> = ({ readonly 
   const currentBalanceFromAbono = abonoTotal - totalExpenses;
   const remainingCajaPct = abonoTotal > 0 ? Math.max(0, (currentBalanceFromAbono / abonoTotal) * 100) : 0;
 
-  // Nueva métrica de rentabilidad sobre el TOTAL del contrato
   const totalUtility = clientData.total - totalExpenses;
   const utilityPct = Math.max(0, (totalUtility / clientData.total) * 100);
   const isLoss = totalUtility < 0;
 
-  const getBarColorClass = (pct: number) => {
+  const getBarColorClass = (pct) => {
     if (pct <= 0) return "bg-slate-900 dark:bg-white shadow-none";
     if (pct <= 30) return "bg-red-500 shadow-glow-red";
     if (pct <= 60) return "bg-orange-500 shadow-glow-orange";
     return "bg-green-500 shadow-glow-green";
   };
 
-  const handleAddExpense = (e: React.FormEvent) => {
+  const handleAddExpense = (e) => {
     e.preventDefault();
     const amount = parseInt(newExpenseData.amount);
     if (!newExpenseData.item || isNaN(amount) || amount <= 0) return;
 
-    const newExpense: Expense = {
+    const newExpense = {
       id: Date.now(),
       item: newExpenseData.item,
       ref: newExpenseData.ref || "General",
@@ -68,7 +59,7 @@ const ExpenseManagementPage: React.FC<ExpenseManagementPageProps> = ({ readonly 
     else if (remainingCajaPct <= 30) { status = "Crítico"; color = "text-red-600"; }
     else if (remainingCajaPct <= 60) { status = "Medio"; color = "text-orange-600"; }
 
-    const updatedClient: Client = {
+    const updatedClient = {
       ...clientData,
       abonoTotal,
       expenses,
@@ -82,7 +73,7 @@ const ExpenseManagementPage: React.FC<ExpenseManagementPageProps> = ({ readonly 
     navigate('/dashboard');
   };
 
-  const formatCurrency = (val: number) => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(val);
+  const formatCurrency = (val) => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(val);
 
   return (
     <div className="pb-32 min-h-screen bg-slate-50 dark:bg-[#020617] max-w-md mx-auto relative overflow-hidden">
@@ -110,7 +101,6 @@ const ExpenseManagementPage: React.FC<ExpenseManagementPageProps> = ({ readonly 
            <span className="material-symbols-outlined absolute -right-6 -bottom-6 text-[10rem] text-white/10 rotate-12 pointer-events-none">analytics</span>
         </div>
 
-        {/* Nueva Card de Rentabilidad Real */}
         <div className={`glass-card rounded-[2.5rem] p-8 border-2 transition-all ${isLoss ? 'border-harmony-red shadow-glow-red bg-red-50/50 dark:bg-red-900/10' : 'border-transparent'}`}>
            <div className="flex justify-between items-center mb-6">
               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Balance de Rentabilidad</h3>
@@ -138,7 +128,6 @@ const ExpenseManagementPage: React.FC<ExpenseManagementPageProps> = ({ readonly 
            )}
         </div>
 
-        {/* Card de Caja Operativa */}
         <div className="glass-card rounded-[2.5rem] p-8 space-y-6">
           <div className="flex justify-between items-end">
              <div className="space-y-1">
