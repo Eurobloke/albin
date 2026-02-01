@@ -1,7 +1,7 @@
 
 import React from 'react';
-import AppHeader from '../components/AppHeader.jsx';
-import BottomNav from '../components/BottomNav.jsx';
+import AppHeader from './components/AppHeader.jsx';
+import BottomNav from './components/BottomNav.jsx';
 
 const PaymentsPage = ({ clients }) => {
   const totalContracted = clients.reduce((acc, c) => acc + c.total, 0);
