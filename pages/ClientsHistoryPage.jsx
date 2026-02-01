@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import AppHeader from '../components/AppHeader.jsx';
-import BottomNav from '../components/BottomNav.jsx';
+import AppHeader from './components/AppHeader.jsx';
+import BottomNav from './components/BottomNav.jsx';
 
 const LOGO_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuBmG8hGr-zbMEUw4_XqO0tksMNayStHx_v-Z7VL76ULi6d8hhlYSRDhtmtIuWZm6c6OUuL6z3WiTSmCgE43moWXPGn32DpJ-cwCjb3G8mpiJHrkHNygIFcIKGWQG_jLf7khHnYUrSpX6EgHFOnlZnZQEWYFiNFi2SBTIXwuqrRgLo43v0K5s2S2b69Gm-wK4p7SIdSR2UAY9HA3p74Ff8luS_XM0c0s177RPLxnTJfPW-VG_H8V0gzm1wWBKXx_9jdDPyfnHYLF_A";
 
