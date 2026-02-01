@@ -1,14 +1,13 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const BottomNav: React.FC = () => {
+const BottomNav = () => {
   const location = useLocation();
   const active = location.pathname;
 
   const navItems = [
     { path: '/dashboard', icon: 'dashboard', label: 'Panel' },
-    { path: '/business-expenses', icon: 'receipt_long', label: 'Caja' }, // Added Business Expenses link
+    { path: '/business-expenses', icon: 'receipt_long', label: 'Caja' },
     { path: '/clients', icon: 'history', label: 'Historial' },
     { path: '/payments', icon: 'payments', label: 'Pagos' },
     { path: '/settings', icon: 'tune', label: 'Ajustes' },
