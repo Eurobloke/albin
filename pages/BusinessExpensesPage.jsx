@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AppHeader from '../components/AppHeader.jsx';
-import BottomNav from '../components/BottomNav.jsx';
+import AppHeader from './components/AppHeader.jsx';
+import BottomNav from './components/BottomNav.jsx';
 
 const CATEGORIES = [
   { id: 'fuel', label: 'Gasolina', icon: 'local_gas_station', color: 'bg-amber-500' },
