@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AppHeader from '../components/AppHeader.jsx';
+import AppHeader from './components/AppHeader.jsx';
 
 const ExpenseManagementPage = ({ readonly = false, clientData, onUpdateClient }) => {
   const navigate = useNavigate();
