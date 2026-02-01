@@ -1,53 +1,49 @@
-
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-import ClientsHistoryPage from './pages/ClientsHistoryPage';
-import NewClientPage from './pages/NewClientPage';
-import ExpenseManagementPage from './pages/ExpenseManagementPage';
-import PaymentsPage from './pages/PaymentsPage';
-import SettingsPage from './pages/SettingsPage';
-import BusinessExpensesPage from './pages/BusinessExpensesPage';
-import { Client } from './types';
-import { gasApi } from './api';
+import LoginPage from './pages/LoginPage.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
+import ClientsHistoryPage from './pages/ClientsHistoryPage.jsx';
+import NewClientPage from './pages/NewClientPage.jsx';
+import ExpenseManagementPage from './pages/ExpenseManagementPage.jsx';
+import PaymentsPage from './pages/PaymentsPage.jsx';
+import SettingsPage from './pages/SettingsPage.jsx';
+import BusinessExpensesPage from './pages/BusinessExpensesPage.jsx';
+import { gasApi } from './api.js';
 
 const STORAGE_KEY = 'harmony_glass_clients_v4';
 const HISTORY_KEY = 'harmony_glass_history_v4';
 const SESSION_KEY = 'harmony_glass_session';
 const USER_KEY = 'harmony_glass_username';
 
-const App: React.FC = () => {
-  const [userRole, setUserRole] = useState<'admin' | 'basic' | null>(() => {
+const App = () => {
+  const [userRole, setUserRole] = useState(() => {
     const saved = sessionStorage.getItem(SESSION_KEY);
     return saved ? JSON.parse(saved) : null;
   });
 
-  const [currentUser, setCurrentUser] = useState<string>(() => {
+  const [currentUser, setCurrentUser] = useState(() => {
     return sessionStorage.getItem(USER_KEY) || '';
   });
 
-  const [activeClients, setActiveClients] = useState<Client[]>(() => {
+  const [activeClients, setActiveClients] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) return JSON.parse(saved);
     return []; 
   });
 
-  const [historyClients, setHistoryClients] = useState<Client[]>(() => {
+  const [historyClients, setHistoryClients] = useState(() => {
     const saved = localStorage.getItem(HISTORY_KEY);
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
+  const [selectedClientId, setSelectedClientId] = useState(null);
 
-  // EFECTO: Sincronización inicial con Google Sheets
   useEffect(() => {
     const syncData = async () => {
       try {
-        const response: any = await gasApi.call('GET_ALL_DATA');
+        const response = await gasApi.call('GET_ALL_DATA');
         if (response.success && response.clients) {
           setActiveClients(response.clients);
-          // Actualizamos localStorage como backup local
           localStorage.setItem(STORAGE_KEY, JSON.stringify(response.clients));
         }
       } catch (err) {
@@ -57,7 +53,6 @@ const App: React.FC = () => {
     if (userRole) syncData();
   }, [userRole]);
 
-  // Guardado persistente local (Fallback)
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(activeClients));
   }, [activeClients]);
@@ -66,7 +61,7 @@ const App: React.FC = () => {
     localStorage.setItem(HISTORY_KEY, JSON.stringify(historyClients));
   }, [historyClients]);
 
-  const handleLogin = (role: 'admin' | 'basic', username: string) => {
+  const handleLogin = (role, username) => {
     setCurrentUser(username);
     setUserRole(role);
   };
@@ -78,22 +73,22 @@ const App: React.FC = () => {
     setCurrentUser('');
   };
 
-  const handleAddClient = async (newClient: Client) => {
+  const handleAddClient = async (newClient) => {
     setActiveClients(prev => [newClient, ...prev]);
     setSelectedClientId(newClient.id);
     await gasApi.call('SAVE_CLIENT', { client: newClient });
   };
 
-  const handleUpdateClient = async (updatedClient: Client) => {
+  const handleUpdateClient = async (updatedClient) => {
     setActiveClients(prev => prev.map(c => c.id === updatedClient.id ? updatedClient : c));
     await gasApi.call('SAVE_CLIENT', { client: updatedClient });
   };
 
-  const handleDeleteActiveClient = async (id: number) => {
+  const handleDeleteActiveClient = async (id) => {
     const clientToArchive = activeClients.find(c => c.id === id);
     if (!clientToArchive) return;
 
-    const archivedClient: Client = {
+    const archivedClient = {
       ...clientToArchive,
       status: "Finalizado",
       end: new Date().toLocaleDateString()
@@ -104,7 +99,7 @@ const App: React.FC = () => {
     await gasApi.call('ARCHIVE_CLIENT', { clientId: id });
   };
 
-  const handleDeleteHistoryClient = (id: number) => {
+  const handleDeleteHistoryClient = (id) => {
     setHistoryClients(prev => prev.filter(c => c.id !== id));
   };
 
