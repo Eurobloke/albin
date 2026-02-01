@@ -1,23 +1,14 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Client } from '../types';
-import BottomNav from '../components/BottomNav';
-import AppHeader from '../components/AppHeader';
+import BottomNav from '../components/BottomNav.jsx';
+import AppHeader from '../components/AppHeader.jsx';
 
-interface DashboardPageProps {
-  readonly?: boolean;
-  clients: Client[];
-  onSelectClient: (id: number) => void;
-  onDeleteClient?: (id: number) => void;
-}
-
-const DashboardPage: React.FC<DashboardPageProps> = ({ readonly = false, clients, onSelectClient, onDeleteClient }) => {
+const DashboardPage = ({ readonly = false, clients, onSelectClient, onDeleteClient }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [clientToDelete, setClientToDelete] = useState<Client | null>(null);
+  const [clientToDelete, setClientToDelete] = useState(null);
 
-  const handleCardClick = (client: Client) => {
+  const handleCardClick = (client) => {
     onSelectClient(client.id);
     navigate('/expense-management');
   };
@@ -27,15 +18,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ readonly = false, clients
     client.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const getBudgetInfo = (client: Client) => {
+  const getBudgetInfo = (client) => {
     const abono = client.abonoTotal || 0;
     const spent = client.expenses?.reduce((sum, e) => sum + e.amount, 0) || 0;
     
-    // Balance basado en lo abonado por el cliente
     const remainingInCaja = abono - spent;
     const cajaPct = abono > 0 ? Math.max(0, (remainingInCaja / abono) * 100) : 0;
     
-    // Rentabilidad real del proyecto (Total Venta - Gastos)
     const utility = client.total - spent;
     const isOverBudget = spent > client.total;
     
@@ -104,7 +93,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ readonly = false, clients
                   <div className={`rounded-3xl p-5 mb-6 grid grid-cols-2 gap-4 border ${isOverBudget ? 'bg-harmony-red/5 border-harmony-red/20' : 'bg-slate-50/50 dark:bg-white/5 border-slate-100 dark:border-white/5'}`}>
                     <div>
                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Precio Venta</span>
-                      {/* Fixed isLoss error by using isOverBudget which represents utility < 0 */}
                       <span className={`text-base font-black ${isOverBudget ? 'text-slate-400' : 'text-slate-900 dark:text-slate-100'}`}>$ {item.total.toLocaleString()}</span>
                     </div>
                     <div className="text-right">
